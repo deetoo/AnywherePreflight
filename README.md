@@ -10,5 +10,7 @@ preflight scripts to validate servers for Anywhere installation.
 - *Checks Windows 2008 R2, 2012, and 2016 for minimum requirements for a successful AA installation.*
 
 
-#*DISCLAIMER*#
+
+
+#DISCLAIMER#
 These scripts are not official Armor Defense products, no warranty express or implied.
