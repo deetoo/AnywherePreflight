@@ -12,5 +12,5 @@ preflight scripts to validate servers for Anywhere installation.
 
 
 
-#DISCLAIMER#
-These scripts are not official Armor Defense products, no warranty express or implied.
+# DISCLAIMER #
+*These scripts are not official Armor Defense products, no warranty is expressed or implied.*
