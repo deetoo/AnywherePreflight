@@ -15,7 +15,6 @@ echo "Server: $MySERVER" >>$LOGFILE
 echo -e "OS: $MyOS $MyVERSION \n" >>$LOGFILE
 
 # verify outbound connectivity to all Armor resources.
-# update this to be more chatty on any failures. -DD
 function NetCheck()
 {
 ip=( "146.88.106.210 -p 443"
@@ -99,12 +98,18 @@ if [ `lscpu |grep Architecture |awk '{print $2}'` != 'x86_64' ]
 		echo "Architecture Check: Passed" >>$LOGFILE
 fi
 
-# right now this just dumps the free space to the logfile.
-# it does NOT verify enough space exists.
-echo "Disk Space Check:"
-MyFREE=`df -kh /opt|tail -1|awk '{print $4}'`
-echo -e "Available space: $MyFREE - 3GB is needed.\n"
-echo "Disk Space: $MyFREE" >>$LOGFILE
+# Disk space check, clunky math check vs 3GB defined as 3000000 bytes
+echo "3GB Disk Space Check:"
+MinSpace=3000000
+MySpace=$(df /opt | awk 'NR==2 { print $4 }')
+if (( MySpace < MinSpace )); then
+  echo "Disk Space Error: $MySpace found, 3GB needed" >&2
+  exit 1
+fi
+echo -e "Disk Space Check: Passed" 
+echo "Disk Space: $MySpace" >>$LOGFILE
 
+
+# end of all checks, finish writing to the logfile.
 echo "[end]" >>$LOGFILE
-echo "Script completed, please check $LOGFILE for results."
+echo -e "\nScript completed, please check $LOGFILE for results."
