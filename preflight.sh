@@ -6,9 +6,28 @@ LOGFILE="/tmp/preflight.txt"
 MyDATE=`date +%D`
 MySERVER=`hostname`
 
-# create the logfile with seom generic info.
 echo -e "Armor Anywhere Preflight Test v1.00\n"
 
+# check that root is running this script.
+if [ $UID -ne "0" ]
+	then
+		echo "You must be the root user to execute this script."
+		echo "Exiting!"
+		exit 1
+	else
+		echo -e "Verified script exection by root user.\n"
+	fi
+
+# check tht /tmp can be written to.
+if [ -w /tmp ]
+	then
+		echo -e "Verified /tmp can be written to.\n"
+	else
+		echo "/tmp cannot be written to."
+		echo "$LOGFILE cannot be created. Exiting!"
+		exit 1
+	fi
+# create the logfile with some generic info.
 echo "[begin]"		>$LOGFILE
 echo "Created: $MyDATE" >>$LOGFILE
 echo "Server: $MySERVER" >>$LOGFILE
