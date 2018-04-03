@@ -2,9 +2,9 @@
 clear
 MyOS=`cat /etc/os-release |grep ^ID=|cut -d\" -f2`
 MyVERSION=`cat /etc/os-release |grep ^VERSION_ID=|cut -d\" -f2`
-LOGFILE="/tmp/preflight.txt"
 MyDATE=`date +%D`
 MySERVER=`hostname`
+LOGFILE="/tmp/$MySERVER.txt"
 
 echo -e "Armor Anywhere Preflight Test v1.00\n"
 
@@ -49,9 +49,10 @@ ip=( "146.88.106.210 -p 443"
      do
 	if nmap -P0 $i > /dev/null 2>&1
       then
-        NCHECK=1
+	echo "Connection to $i successful." >>$LOGFILE
       else
 	# any failed test = complete failure.
+	echo "Connection to $i failed." >>$LOGFILE
 	echo "Network Test Failed!"
 	echo "Please check $LOGFILE"
 	echo "Network Test: Failed!" >>$LOGFILE
