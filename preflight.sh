@@ -1,6 +1,7 @@
 #!/bin/bash
 clear
 MyOS=`cat /etc/os-release |grep ^ID=|cut -d\" -f2`
+MyIP=`curl -s https://www.iplocation.net/find-ip-address |grep "color:green" |cut -d\> -f3 |sed 's/<\/span//g'`
 MyVERSION=`cat /etc/os-release |grep ^VERSION_ID=|cut -d\" -f2`
 MyDATE=`date +%D`
 MySERVER=`hostname`
@@ -31,7 +32,9 @@ if [ -w /tmp ]
 echo "[begin]"		>$LOGFILE
 echo "Created: $MyDATE" >>$LOGFILE
 echo "Server: $MySERVER" >>$LOGFILE
-echo -e "OS: $MyOS $MyVERSION \n" >>$LOGFILE
+echo "OS: $MyOS $MyVERSION" >>$LOGFILE
+echo -e "IP: $MyIP \n" >>$LOGFILE
+
 
 # verify outbound connectivity to all Armor resources.
 function NetCheck()
@@ -52,6 +55,7 @@ ip=( "146.88.106.210 -p 443"
 	echo "Connection to $i successful." >>$LOGFILE
       else
 	# any failed test = complete failure.
+	MyFW=0 # For PushToArmor
 	echo "Connection to $i failed." >>$LOGFILE
 	echo "Network Test Failed!"
 	echo "Please check $LOGFILE"
@@ -59,10 +63,13 @@ ip=( "146.88.106.210 -p 443"
 	exit 1
       fi
   done
+	MyFW=1 # for PushToArmor
 	echo -e "Network Test: Passed\n"
 	echo "Network Test: Passed" >>$LOGFILE
 }
 
+function MainCheck ()
+{
 if [ $MyOS = "centos" ] || [ $myOS = "rhel" ]
 	then
 		echo "CentOS or RedHat detected:"
@@ -133,3 +140,24 @@ echo "Disk Space: $MySpace" >>$LOGFILE
 # end of all checks, finish writing to the logfile.
 echo "[end]" >>$LOGFILE
 echo -e "\nScript completed, please check $LOGFILE for results."
+}
+
+
+# function to send to Armor if Customer chooses.
+function PushToArmor ()
+{
+MyCustomer="EssilorCA"
+MyArgs="customer=${MyCustomer}&servername=${MySERVER}&os=${MyOS}${MyVERSION}&ipaddress=${MyIP}&powershell=2&dotnet=2&fwrules=${MyFW}&antivirus=1"
+
+echo "pushing web data.."
+ServerURL="http://xxx.xxx.xxx.xxx/upaa.php"
+echo "wget --post-data '$MyArgs' $ServerURL"
+wget -q $ServerURL/upaa.php?$MyArgs
+}
+
+if [ "$1" = "-send" ]
+	then
+		PushToArmor
+	else
+		MainCheck
+	fi
