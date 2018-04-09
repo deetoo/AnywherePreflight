@@ -28,6 +28,7 @@ if [ -w /tmp ]
 		echo "$LOGFILE cannot be created. Exiting!"
 		exit 1
 	fi
+
 # create the logfile with some generic info.
 echo "[begin]"		>$LOGFILE
 echo "Created: $MyDATE" >>$LOGFILE
@@ -68,6 +69,7 @@ ip=( "146.88.106.210 -p 443"
 	echo "Network Test: Passed" >>$LOGFILE
 }
 
+# main function to run
 function MainCheck ()
 {
 if [ $MyOS = "centos" ] || [ $myOS = "rhel" ]
@@ -146,7 +148,7 @@ echo -e "\nScript completed, please check $LOGFILE for results."
 # function to send to Armor if Customer chooses.
 function PushToArmor ()
 {
-MyCustomer="EssilorCA"
+MyCustomer="Test Customer"
 MyArgs="customer=${MyCustomer}&servername=${MySERVER}&os=${MyOS}${MyVERSION}&ipaddress=${MyIP}&powershell=2&dotnet=2&fwrules=${MyFW}&antivirus=1"
 
 echo "pushing web data.."
