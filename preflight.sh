@@ -43,7 +43,7 @@ function NetCheck()
 ip=( "146.88.106.210 -p 443"
      "146.88.106.197 -p 4119"
      "146.88.106.197 -p 4120"
-     "146.88.106.197 -p 4122"
+     "146.88.106.197 -p 5122"
      "146.88.106.196 -p 515"
      "146.88.106.200 -p 8443"
      "146.88.106.216 -p 443"
@@ -72,6 +72,27 @@ ip=( "146.88.106.210 -p 443"
 # main function to run
 function MainCheck ()
 {
+if [ $MyOS = "amzn" ]
+	then
+		echo "Amazon Linux detected:"
+		if [ $MyVERSION -ge 2 ]
+			then
+				echo -e "Supported version.\n"
+				if [ -f /usr/bin/nmap ]
+					then
+						echo "Checking outbound connectivity."
+						NetCheck
+					else
+						echo "Please install nmap, and then execute this script. Exiting!"
+						exit
+				fi
+			else
+				echo "OS Error: Unsupported OS version $MyVERSION" >>$LOGFILE
+				echo "Unsupported version of this OS. Exiting!"
+				exit
+		fi
+fi
+	
 if [ $MyOS = "centos" ] || [ $myOS = "rhel" ]
 	then
 		echo "CentOS or RedHat detected:"
