@@ -40,24 +40,24 @@ echo -e "IP: $MyIP \n" >>$LOGFILE
 # verify outbound connectivity to all Armor resources.
 function NetCheck()
 {
-ip=( "146.88.106.210 -p 443"
-     "146.88.106.197 -p 4119"
-     "146.88.106.197 -p 4120"
-     "146.88.106.197 -p 5122"
-     "146.88.106.196 -p 515"
-     "146.88.106.200 -p 8443"
-     "146.88.106.216 -p 443"
-     "cloud.tenable.com -p 443" )
+TestIP="xxx.xxx.xxx.xxx"
+ip=( "443"
+     "4119"
+     "4120"
+     "5122"
+     "515"
+     "8443"
+     "443" )
  
   for i in "${ip[@]}"
      do
-	if nmap -P0 $i > /dev/null 2>&1
+	if nmap -P0 $TestIP -p $i > /dev/null 2>&1
       then
-	echo "Connection to $i successful." >>$LOGFILE
+	echo "Outbound connection to port $i successful." >>$LOGFILE
       else
 	# any failed test = complete failure.
 	MyFW=0 # For PushToArmor
-	echo "Connection to $i failed." >>$LOGFILE
+	echo "Failed to open outbound port $i" >>$LOGFILE
 	echo "Network Test Failed!"
 	echo "Please check $LOGFILE"
 	echo "Network Test: Failed!" >>$LOGFILE
