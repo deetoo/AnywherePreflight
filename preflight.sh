@@ -6,6 +6,9 @@ MyVERSION=`cat /etc/os-release |grep ^VERSION_ID=|cut -d\" -f2`
 MyDATE=`date +%D`
 MySERVER=`hostname`
 LOGFILE="/tmp/$MySERVER.txt"
+# server used to verify outbound connectivity
+# also used to push results of all tests if enabled.
+ServerIP="172.31.24.58"
 
 echo -e "Armor Anywhere Preflight Test v1.00\n"
 
@@ -40,7 +43,6 @@ echo -e "IP: $MyIP \n" >>$LOGFILE
 # verify outbound connectivity to all Armor resources.
 function NetCheck()
 {
-TestIP="xxx.xxx.xxx.xxx"
 ip=( "443"
      "4119"
      "4120"
@@ -51,7 +53,7 @@ ip=( "443"
  
   for i in "${ip[@]}"
      do
-	if nmap -P0 $TestIP -p $i > /dev/null 2>&1
+	if nmap -P0 $ServerIP -p $i > /dev/null 2>&1
       then
 	echo "Outbound connection to port $i successful." >>$LOGFILE
       else
@@ -173,7 +175,7 @@ MyCustomer="Test Customer"
 MyArgs="customer=${MyCustomer}&servername=${MySERVER}&os=${MyOS}${MyVERSION}&ipaddress=${MyIP}&powershell=2&dotnet=2&fwrules=${MyFW}&antivirus=1"
 
 echo "pushing web data.."
-ServerURL="http://xxx.xxx.xxx.xxx/upaa.php"
+ServerURL="http://$ServerIP/upaa.php"
 echo "wget --post-data '$MyArgs' $ServerURL"
 wget -q $ServerURL/upaa.php?$MyArgs
 }
