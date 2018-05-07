@@ -80,14 +80,6 @@ if [ $MyOS = "amzn" ]
 		if [ $MyVERSION -ge 2 ]
 			then
 				echo -e "Supported version.\n"
-				if [ -f /usr/bin/nmap ]
-					then
-						echo "Checking outbound connectivity."
-						NetCheck
-					else
-						echo "Please install nmap, and then execute this script. Exiting!"
-						exit
-				fi
 			else
 				echo "OS Error: Unsupported OS version $MyVERSION" >>$LOGFILE
 				echo "Unsupported version of this OS. Exiting!"
@@ -101,14 +93,6 @@ if [ $MyOS = "centos" ] || [ $myOS = "rhel" ]
 		if [ $MyVERSION -ge 6 ]
 			then
 				echo -e "Supported version.\n"
-				if [ -f /usr/bin/nmap ]
-					then
-						echo "Checking outbound connectivity."
-						NetCheck
-					else
-						echo "Please install nmap, and then execute this script. Exiting!"
-						exit
-				fi
 		else
 				echo "OS Error: Unsupported OS version" >>$LOGFILE
 				echo "Unsupported version of this OS. Exiting!"
@@ -122,14 +106,6 @@ if [ $MyOS == "ubuntu" ]
 		if [ $MyVERSION -ge 12 ]
 			then
 				echo -e "Supported version.\n"
-				if [ -f /usr/bin/nmap ]
-					then
-						echo "Outbound Connectivity Check:"
-							NetCheck
-					else
-						echo "Please install nmap, and then execute this script. Exiting!"
-						exit
-				fi
 		else
 				echo "OS Error: Unsupported OS version" >>$LOGFILE
 				echo "Unsupported version of this OS. Exiting!"
