@@ -8,7 +8,7 @@ MySERVER=`hostname`
 LOGFILE="/tmp/$MySERVER.txt"
 # server used to verify outbound connectivity
 # also used to push results of all tests if enabled.
-ServerIP="172.31.24.58"
+ServerIP="10.0.10.1"
 
 echo -e "Armor Anywhere Preflight Test v1.00\n"
 
