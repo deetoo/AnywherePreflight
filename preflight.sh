@@ -87,7 +87,7 @@ if [ $MyOS = "amzn" ]
 		fi
 fi
 	
-if [ $MyOS = "centos" ] || [ $myOS = "rhel" ]
+if [ $MyOS = "centos" ] || [ $MyOS = "rhel" ]
 	then
 		echo "CentOS or RedHat detected:"
 		if [ $MyVERSION -ge 6 ]
