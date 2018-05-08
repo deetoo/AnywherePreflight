@@ -74,10 +74,10 @@ ip=( "443"
 # main function to run
 function MainCheck ()
 {
-if [ $MyOS = "amzn" ]
+if [ "$MyOS" = "amzn" ]
 	then
 		echo "Amazon Linux detected:"
-		if [ $MyVERSION -ge 2 ]
+		if [ "$MyVERSION" -ge 2 ]
 			then
 				echo -e "Supported version.\n"
 			else
@@ -87,10 +87,10 @@ if [ $MyOS = "amzn" ]
 		fi
 fi
 	
-if [ $MyOS = "centos" ] || [ $MyOS = "rhel" ]
+if [ "$MyOS" = "centos" ] || [ "$MyOS" = "rhel" ]
 	then
 		echo "CentOS or RedHat detected:"
-		if [ $MyVERSION -ge 6 ]
+		if [ "$MyVERSION" -ge 6 ]
 			then
 				echo -e "Supported version.\n"
 		else
@@ -100,10 +100,10 @@ if [ $MyOS = "centos" ] || [ $MyOS = "rhel" ]
 		fi
 fi
 
-if [ $MyOS == "ubuntu" ]
+if [ "$MyOS" == "ubuntu" ]
 	then
 		echo "Ubuntu detected:"
-		if [ $MyVERSION -ge 12 ]
+		if [ "$MyVERSION" -ge 12 ]
 			then
 				echo -e "Supported version.\n"
 		else
