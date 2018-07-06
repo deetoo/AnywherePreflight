@@ -1,6 +1,7 @@
 # AnywherePreflight
 preflight scripts to validate servers for Anywhere installation.
 
+*work on this project has ended.*
 
 ## scripts
 **preflight.sh** : Linux bash script to validate AA installs
